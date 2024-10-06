@@ -1,0 +1,625 @@
+<!-- 会用用，不会用垃圾吧倒 -->
+
+<!DOCTYPE html>
+<html>
+<header>
+	<script>
+		setButtonImage("https://yt3.googleusercontent.com/13ePwZ18a0FqgEGXXDy7wl-SGnUtHhYAdPiZb058yNBIKx3hZ8YuuFULcDx7h9Ep4wWM8p3r=s900-c-k-c0x00ffffff-no-rj");
+	    setWindowRect(0,0,window.screen.height,window.screen.width);
+        setWindowDrag(0,0,350,100);
+	</script>
+	<title>imgui</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.7/lib/theme-chalk/index.css">
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6/dist/vue.min.js"></script>
+	<script src="https://unpkg.com/element-ui@2.15.7/lib/index.js"></script>
+	<style>
+    
+    @import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@100..900&display=swap');
+
+	.dotgothic16-regular {
+  font-family: "DotGothic16", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.noto-sans-jp-uniquifier {
+  font-family: "Noto Sans JP", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: ;
+  font-style: normal;
+}
+
+body {
+	background-image: url();
+    background-color: rgba(0, 0, 0, 0.596); /* 背景色をRGBA形式に変更 */
+	backdrop-filter: blur(10%); /* ぼかし効果を追加 */
+    font-family: "Noto Sans JP", sans-serif;
+    color: #e0e0e0;
+    zoom: 0.89;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* 横スクロールを防止 */
+}
+
+
+.ayimgui {
+    position: fixed;
+    width: 360px;
+    height: 320px;
+	border-radius: 12px;
+    top: calc(50% - 160px); 
+    left: calc(50% - 180px);
+    z-index: 999;
+    background-color: #0000005b;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.aytitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    background-color: #2c2c2c;
+    border-bottom: 1px solid #444;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: move;
+}
+
+.titleClose {
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.titleClose:hover {
+    color: #ff5a5a;
+}
+
+button {
+    width: 100%;
+    height: 40px;
+    color: #fff;
+    background: rgba(83, 83, 83, 0.7);
+    cursor: pointer;
+    text-align: center;
+    outline: none;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 0 10px;
+    margin: 6px 0;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+
+button:active {
+    background: rgba(255, 87, 34, 0.8);
+}
+
+.aybody {
+    padding: 15px;
+    height: calc(100% - 50px);
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.aytext {
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    color: #ffffff;
+}
+
+.el-checkbox__label,
+.el-radio__label {
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+.el-checkbox__input.is-checked+.el-checkbox__label,
+.el-radio__input.is-checked+.el-radio__label {
+    color: #ff5722;
+}
+
+.el-checkbox__inner,
+.el-radio__inner {
+    background-color: #2c2c2c;
+    border: none;
+}
+
+.el-radio__inner::after {
+    width: 10px;
+    height: 10px;
+    background-color: #ff5722;
+}
+
+.el-select {
+    width: 100%;
+    border: 1px solid #444;
+    background-color: #2c2c2c;
+}
+
+.el-select .el-input {
+    background-color: #2c2c2c;
+}
+
+.el-select .el-input__suffix {
+    color: #ff5722;
+}
+
+.el-select .el-input__inner {
+    border: none;
+    color: #ffffff;
+}
+
+.el-button {
+    font-size: 14px;
+    padding: 5px 10px;
+    color: #ffffff;
+    background-color: #5a5a5a;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.el-button:hover {
+    opacity: .8;
+    background-color: #ff5722;
+}
+
+.aycollapse {
+    width: 100%;
+    font-size: 14px;
+    background-color: #333;
+    color: #ffffff;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.aytab {
+    width: 100%;
+    height: 25px;
+    display: flex;
+}
+
+.aytab span {
+    padding: 4px 8px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #555;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 10px;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.aytab span:hover {
+    background-color: #777;
+}
+
+.el-input input {
+    background-color: #2c2c2c;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+}
+
+	</style>
+</header>
+
+<body>
+	<div id="app">
+		<div :class="!ifshow?'onlyTitle ayimgui':'ayimgui'" ref="menuMain">
+			<div class="aytitle" @touchstart="titleTouchStart" @touchmove="titleTouchMove">
+				<i :class="ifshow?'el-icon-caret-bottom':'el-icon-caret-top'" @click="ifshow = !ifshow"></i>
+				<span class="noto-sans-jp-uniquifier" class="title-age" style="margin-left:5px;">まんこ</span>
+				<i class="titleClose el-icon el-icon-close" @click="closeimgui"></i>
+			</div>
+			<div class="aybody">
+				<div class="aytab">
+					<span class="noto-sans-jp-uniquifier" @click="changeTab('one')"
+						:style="{background:tabValue==='one'?'#5a5a5a':'#5a5a5a'}">近接系連射</span>
+					<span class="noto-sans-jp-uniquifier" @click="changeTab('two')"
+						:style="{background:tabValue==='two'?'#5a5a5a':'#5a5a5a'}">遠距離系</span>
+					<span class="noto-sans-jp-uniquifier" @click="changeTab('three')"
+						:style="{background:tabValue==='three'?'#5a5a5a':'#5a5a5a'}">人物系</span>
+						<span class="noto-sans-jp-uniquifier" @click="changeTab('four')"
+						:style="{background:tabValue==='four'?'#5a5a5a':'#5a5a5a'}">情報</span>
+				</div>
+
+				<div v-show="tabValue==='one'">
+					<div class="aytext">
+					</div>
+						<br>
+						<button class="noto-sans-jp-uniquifier" onclick="panti()">パンチ</button>
+						<button class="noto-sans-jp-uniquifier" onclick="racket()">ラケット</button>
+						<button class="noto-sans-jp-uniquifier" onclick="kansyubou()">看守棒</button>
+						<button class="noto-sans-jp-uniquifier" onclick="sairen()">サイレン</button>
+						<button class="noto-sans-jp-uniquifier" onclick="kirakiranyakkuru()">キラキラにゃっくる</button>
+						<button class="noto-sans-jp-uniquifier" onclick="terepooto()">テレポート</button>
+					    <br>
+					</div>
+				<div v-show="tabValue === 'two'">
+					<div class="aytext">
+					</div>
+					<br>
+					<button class="noto-sans-jp-uniquifier" onclick="hihinwwww()">水鉄砲SPAI1</button>
+					<button class="noto-sans-jp-uniquifier" onclick="MizudeppouSpaiiw()">水鉄砲SPAI2</button>
+					<button class="noto-sans-jp-uniquifier" onclick="Mizusudw()">水鉄砲SPAI3</button>
+					<button class="noto-sans-jp-uniquifier" onclick="gurenedo()">グレネード</button>
+					<button class="noto-sans-jp-uniquifier" onclick="inparusug()">インパルスG</button>
+					<button class="noto-sans-jp-uniquifier" onclick="huusenjuu()">風船銃</button>
+					<br>
+				</div>
+				<div v-show="tabValue === 'three'">
+						<div class="aytext">
+						</div>
+						<br>
+						<button class="noto-sans-jp-uniquifier" onclick="hp()">HP</button>
+						<button class="noto-sans-jp-uniquifier" onclick="maxhp()">MAXHP</button>
+						<button class="noto-sans-jp-uniquifier" onclick="keiryouka()">軽量化</button>
+						<button class="noto-sans-jp-uniquifier" onclick="speedhack()">スピードハック</button>
+						<button class="noto-sans-jp-uniquifier" onclick="allChestSwitch()">宝箱変更</button>
+						<button class="noto-sans-jp-uniquifier" onclick="juuryoku()">重力</button>
+						<button class="noto-sans-jp-uniquifier" onclick="kyodaika()">巨大化</button>
+						<button class="noto-sans-jp-uniquifier" onclick="panti()">パンチ拡大ON</button>
+						<button class="noto-sans-jp-uniquifier" onclick="sezsezzzasdwa()">セックスON</button>
+						<button class="noto-sans-jp-uniquifier" onclick="uppppa()">セックスOFF</button>
+					</div>
+					<div v-show="tabValue === 'four'">
+						<div class="noto-sans-jp-uniquifier" class="aytext">
+						</div>
+						<br>
+						製作者 いんじす殺害軍
+						<br>
+					</div>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		var app = new Vue({
+			el: "#app",
+			data() {
+				return {
+					ifshow: true,
+					checked: false,
+					radio: '1',
+					activeSelect: '',
+					selectOption: [{
+						value: 'Option1',
+						label: 'golden'
+					}, {
+						value: 'Option2',
+						label: 'eggs'
+					}],
+					input: "",
+					showOption: false,
+					tabValue: "one",
+				}
+			},
+			mounted() {
+				this.setRect(360, 320);
+				setWindowDrag(0, 0, 0, 0);
+    
+				var layout = function()
+				{
+					if(window.lastorientation==window.orientation) return;
+					window.lastorientation=window.orientation;
+					if(Math.abs(window.orientation)==90) {
+						setWindowRect(0,0,window.screen.height,window.screen.width);
+					} else {
+						setWindowRect(0,0,window.screen.width,window.screen.height);
+					}
+				}
+				layout(); 
+				window.addEventListener("orientationchange", layout, false);
+
+				setButtonAction(function () {
+					var menu = document.querySelector("#app");
+					if (menu.style.display == 'none') {
+						menu.style.display = 'block';
+						setWindowTouch(true);
+					} else {
+						menu.style.display = 'none';
+						setWindowTouch(false);
+					}
+				});
+			},
+			methods: {
+				setRect(w, h, x = -1, y = -1) {
+					var boxW = w;
+					var boxH = h;
+
+					var ayMenu = this.$refs.menuMain;
+					ayMenu.style.width = `${boxW}px`;
+					ayMenu.style.height = `${boxH}px`;
+					if (x == -1) ayMenu.style.left = `calc(50% - ${boxW / 2}px)`;
+					if (y == -1) ayMenu.style.top = `calc(50% - ${boxH / 2}px)`;
+				},
+				titleTouchStart(event) {
+					this.touchStartX = parseInt(event.touches[0].clientX);
+					this.touchStartY = parseInt(event.touches[0].clientY);
+
+					var ayMenu = this.$refs.menuMain;
+					this.menuLastX = ayMenu.offsetLeft;
+					this.menuLastY = ayMenu.offsetTop;
+				},
+				titleTouchMove(event) {
+					event.preventDefault();
+					var distanceX = event.touches[0].clientX - this.touchStartX;
+					var distanceY = event.touches[0].clientY - this.touchStartY;
+
+					var ayMenu = this.$refs.menuMain;
+					ayMenu.style.left = this.menuLastX + distanceX + "px";
+					ayMenu.style.top = this.menuLastY + distanceY + "px";
+				},
+				//切换导航栏
+				changeTab(v) {
+					this.tabValue = v;
+				},
+				closeimgui() {
+					var menu = document.querySelector("#app");
+					menu.style.display = 'none';
+				}
+			}
+		});
+	</script>
+
+
+<script>
+//PlayerStatus hp1
+function hp(){
+BaseAddr = Number(h5gg.getRangesList("UnityFramework")[0].start);
+muteki = 0x39E9E8
+h5gg.setValue(BaseAddr+hp,100000,"F32")
+};
+
+//PlayerStatus maxhp
+function maxhp(){
+BaseAddr = Number(h5gg.getRangesList("UnityFramework")[0].start);
+maxhp = 0x39EA44
+h5gg.setValue(BaseAddr+maxhp,100000,"F32")
+};
+
+	function MizudeppouSpaiiw(){
+h5gg.clearResults();
+h5gg.searchNumber('50329774', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1065353216', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+function hihinwwww(){
+h5gg.clearResults();
+h5gg.searchNumber('281752298', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1110704128', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+function Mizusudw(){
+h5gg.clearResults();
+h5gg.searchNumber('1973868151', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1056964608', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+//パンチ拡大
+function pantikakudai(){
+h5gg.clearResults();
+h5gg.searchNumber('1.8', 'F32', '0x000000000', '0x200000000');
+h5gg.editAll('100', 'F32');
+};
+//??OFF
+function uppppa(){
+	h5gg.clearResults();
+h5gg.searchNumber('1069547520', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('869711765', 'I32', '0x16');
+h5gg.searchNumber('869711765', 'I32', '0x000000000', '0x200000000');
+        var count = h5gg.getResultsCount();
+        var r = h5gg.getResults(count);
+        var cnt = 0;
+        for(var i=0; i<count; i++){
+            var addr1 = r[i].address;
+            var dizhi1 = (Number(addr1) + 0);
+h5gg.setValue(dizhi1,1065353216, "I32");
+}}
+//??ON
+function sezsezzzasdwa(){
+h5gg.clearResults();
+h5gg.searchNumber('1069547520', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1065353216', 'I32', '0x16');
+h5gg.searchNumber('1065353216', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('-1', 'I32', '0x16');
+h5gg.searchNumber('1065353216', 'I32', '0x000000000', '0x200000000');
+        var count = h5gg.getResultsCount();
+        var r = h5gg.getResults(count);
+        var cnt = 0;
+        for(var i=0; i<count; i++){
+            var addr1 = r[i].address;
+            var dizhi1 = (Number(addr1) + 0);
+h5gg.setValue(dizhi1,869711765, "I32");
+}}
+//軽量化
+function speedhack(){
+h5gg.clearResults();
+h5gg.searchNumber('6.874417363427344e+28', 'F32', '0x000000000', '0x200000000');
+h5gg.editAll('4545454533357235950525087744.000000', 'F32');
+};
+//宝箱
+function allChestSwitch(){
+h5gg.clearResults();
+h5gg.searchNumber('2200465399785425311', 'I64', '0x000000000', '0x300000000');
+var counts = h5gg.getResultsCount();
+var results = h5gg.getResults(counts, 0);
+for(var i=0; i<counts; i++){
+h5gg.setValue(Number(results[i].address) + 120, "1", 'I32');
+}}
+
+//スピードハック
+function speedhack(){
+h5gg.clearResults();
+h5gg.searchNumber('6.874417363427344e+28', 'F32', '0x000000000', '0x200000000');
+h5gg.editAll('4545454533357235950525087744.000000', 'F32');
+};
+//重力
+function juuryoku(){
+h5gg.clearResults();
+h5gg.searchNumber('-28', 'F32', '0x000000000', '0x200000000');
+h5gg.editAll('-4', 'F32');
+};
+//パンチ
+function panti(){
+h5gg.clearResults();
+h5gg.searchNumber('1343464817', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1056964608', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+//ラケット
+function racket(){
+h5gg.clearResults();
+h5gg.searchNumber('1356851644', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1061997773', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+//看守棒連射
+function kansyubou(){
+h5gg.clearResults();
+h5gg.searchNumber('1253688162', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1077936128', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+//サイレン
+function sairen(){
+h5gg.clearResults();
+h5gg.searchNumber('1789885589', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1065353216', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('1789885589', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1112014848', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+//水鉄砲SPAI
+function MizudeppouSpai(){
+h5gg.clearResults();
+h5gg.searchNumber('50329774', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1065353216', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('281752298', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1110704128', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('1973868151', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1056964608', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+//グレネード
+function gurenedo(){
+h5gg.clearResults();
+h5gg.searchNumber('1932949824', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1065353216', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('738306101', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1101004800', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+//風船銃
+function huusenjuu(){
+h5gg.clearResults();
+h5gg.searchNumber('1626686680', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1065353216', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('1957058167', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1048576000', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+//巨大化
+function f11(){
+h5gg.clearResults();
+h5gg.searchNumber('2.3', 'F32', '0x000000000', '0x300000000');
+h5gg.editAll('9', 'F32');
+};
+//キラキラにゃっくる
+function kirakiranyakkuruSS(){
+h5gg.clearResults();
+h5gg.searchNumber('1779273765', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1065353216', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('756257137', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1110704128', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('75401748', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1061997773', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('1939385807', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1055286886', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('1712520725', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1056964608', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('1302831744', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1060320051', 'I32', '0x100');
+h5gg.searchNearby('1', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+//テレポート
+function terepooto(){
+h5gg.clearResults();
+h5gg.searchNumber('1476720745', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1114636288', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('508447993', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1073741824', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+h5gg.clearResults();
+h5gg.searchNumber('1784006213', 'I32', '0x000000000', '0x200000000');
+h5gg.searchNearby('1065353216', 'I32', '0x100');
+h5gg.searchNearby('257', 'I32', '0x5');
+h5gg.editAll('0', 'I32');
+};
+</script>
+</body>
+
+</html>
